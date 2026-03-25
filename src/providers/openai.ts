@@ -51,10 +51,9 @@ export class OpenAIProvider implements LLMProvider {
 
     for await (const chunk of stream) {
       const delta = chunk.choices[0]?.delta?.content ?? ''
-      const finishReason = chunk.choices[0]?.finish_reason
       yield {
         delta,
-        done: finishReason !== undefined && finishReason !== null,
+        done: chunk.choices[0]?.finish_reason != null,
       }
     }
   }
